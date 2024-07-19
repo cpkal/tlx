@@ -1,0 +1,1 @@
+{"name":"Local: C_MinES","url":"d:\\Coding\\cp\\tlx\\gemastik-2023-penyisihan\\C_MinES.cpp","tests":[{"id":1719395422263,"input":"BD","output":"BC"},{"id":1719396582118,"input":"CABD","output":"ABBC"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Coding\\cp\\tlx\\gemastik-2023-penyisihan\\C_MinES.cpp","group":"local","local":true}
