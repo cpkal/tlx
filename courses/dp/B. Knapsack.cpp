@@ -50,54 +50,42 @@ double eps = 1e-12;
 #define fast_cin() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define all(x) (x).begin(), (x).end()
 #define sz(x) ((ll)(x).size())
- 
 
 void solve(){
-    ll n; cin >> n;
-    ll a[n+1];
-    forn(i,n+1) cin >> a[i];
-    ll m; cin >> m;
-
-    ll total_plat_dibeli = 0;
-    ll x = 0;
-    while(m >= a[x]) {
-        if(m <= 0) break;
-        m -= a[x];
-        x++;
-        total_plat_dibeli++;
+    ll n, k; cin >> n >> k;
+    ll w[k], h[k];
+    for(int i = 0; i < k; i++) {
+        cin >> w[i] >> h[i];
+    }
+    ll dp[n+1];
+    for(ll i=0; i<=n; i++){
+        dp[i] = 0;
     }
 
-    cout << total_plat_dibeli << endl;
-    if(x-1 < 50) {
-        for(int i = x-1; i >= 0; i--) {
-            cout << i;
-        }
-        cout << endl;
-        for(int i = x-1; i >= 0; i--) {
-            cout << i;
-        }
-    } else {
-        for(int i = 99; i >= 50; i--) {
-            cout << i;
-        }
-        cout << endl;
-        for(int i = 49; i >= 0; i--) {
-            cout << i;
-        }
-    }
+/*
+11 3
+10 30
+6 17
+5 14
+*/
+    vector<vector<bool>> keep(k + 1, vector<bool>(n + 1, false));
 
-    ll x = n-1;
-    while(m >= a[x]) {
-        if(m <= 0) break;
-        m -= a[x];
-        x++;
-        total_plat_dibeli++;
-    }
+    for(int i = 1; i <= k; i++) {
+        for(int c = n; c >= w[i]; c--) {
+            if(dp[c] < dp[c - w[i]] + h[i]) {
+                dp[c] = dp[c - w[i]] + h[i];
+                // //diambil
+                keep[i][c] = true;
+            }
+        }
+    }   
+
+    
 }
-
 int main()
 {
  fast_cin();
  solve();
+
  return 0;
 }

@@ -50,51 +50,52 @@ double eps = 1e-12;
 #define fast_cin() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define all(x) (x).begin(), (x).end()
 #define sz(x) ((ll)(x).size())
+
+vector<long long> memo;
  
-
-void solve(){
-    ll n; cin >> n;
-    ll a[n+1];
-    forn(i,n+1) cin >> a[i];
-    ll m; cin >> m;
-
-    ll total_plat_dibeli = 0;
-    ll x = 0;
-    while(m >= a[x]) {
-        if(m <= 0) break;
-        m -= a[x];
-        x++;
-        total_plat_dibeli++;
+ ll coin(ll k, ll n, ll c[], ll ans){
+    if (k==0){
+        return 0;
     }
+    if (k < 0) return INF;
+    if (memo[k] != -1) return memo[k];
+    for (ll i=0; i<n;i++){
+        if(c[i]<=k){
+            ans = min(ans, coin(k-c[i], n, c, ans)+1);
+        }
+    }
+    memo[k] = (ans == INF) ? -1 : ans;
+    return ans;
+ }
 
-    cout << total_plat_dibeli << endl;
-    if(x-1 < 50) {
-        for(int i = x-1; i >= 0; i--) {
-            cout << i;
-        }
-        cout << endl;
-        for(int i = x-1; i >= 0; i--) {
-            cout << i;
-        }
-    } else {
-        for(int i = 99; i >= 50; i--) {
-            cout << i;
-        }
-        cout << endl;
-        for(int i = 49; i >= 0; i--) {
-            cout << i;
+// bottom-up
+ int minCoins(int k, int a[], int n) {
+    vector<int> dp(k + 1, INT_MAX);
+    dp[0] = 0; 
+
+    for (int i = 1; i <= k; i++) {
+        for (int j = 0; j < n; j++) {
+            if (a[j] <= i && dp[i - a[j]] != INT_MAX) {
+                dp[i] = min(dp[i], dp[i - a[j]] + 1);
+            }
         }
     }
 
-    ll x = n-1;
-    while(m >= a[x]) {
-        if(m <= 0) break;
-        m -= a[x];
-        x++;
-        total_plat_dibeli++;
-    }
+    return (dp[k] == INT_MAX) ? -1 : dp[k];
 }
 
+void solve(){
+    ll n, k; cin >> n;
+    ll c[n];
+    forn(i, n){
+        cin>>c[i];
+    }
+    cin>>k;
+    ll ans=INF;
+     memo.assign(k + 1, -1);
+    ans=coin(k, n, c, ans);
+    cout<<ans;
+}
 int main()
 {
  fast_cin();

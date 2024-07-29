@@ -51,50 +51,38 @@ double eps = 1e-12;
 #define all(x) (x).begin(), (x).end()
 #define sz(x) ((ll)(x).size())
  
+ ll factorial(ll num) {
+    if(num == 1 || num == 0) {
+        return 1;
+    }
+    return num * factorial(num - 1);
+ } 
 
 void solve(){
     ll n; cin >> n;
-    ll a[n+1];
-    forn(i,n+1) cin >> a[i];
-    ll m; cin >> m;
+    vector<ll> a(n);
+    forn(i, n) cin >> a[i];
 
-    ll total_plat_dibeli = 0;
-    ll x = 0;
-    while(m >= a[x]) {
-        if(m <= 0) break;
-        m -= a[x];
-        x++;
-        total_plat_dibeli++;
-    }
-
-    cout << total_plat_dibeli << endl;
-    if(x-1 < 50) {
-        for(int i = x-1; i >= 0; i--) {
-            cout << i;
+    //kombinasi 
+    int i = 2;
+    for(i; i < n; i++) {
+        ll com = factorial(n) / (factorial(n-i) * factorial(i));
+        int j = i - 1;
+        for(j; j < com; j++) {
+            ll angka = a[i-2] * a[j];
+            if(sqrt(angka) != a[j]-a[i-2]) {
+                break;
+            }
         }
-        cout << endl;
-        for(int i = x-1; i >= 0; i--) {
-            cout << i;
-        }
-    } else {
-        for(int i = 99; i >= 50; i--) {
-            cout << i;
-        }
-        cout << endl;
-        for(int i = 49; i >= 0; i--) {
-            cout << i;
+        
+        if(j == com) {
+            break;
         }
     }
 
-    ll x = n-1;
-    while(m >= a[x]) {
-        if(m <= 0) break;
-        m -= a[x];
-        x++;
-        total_plat_dibeli++;
-    }
+    cout << i << endl;
+
 }
-
 int main()
 {
  fast_cin();
