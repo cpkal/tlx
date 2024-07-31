@@ -50,18 +50,56 @@ double eps = 1e-12;
 #define fast_cin() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define all(x) (x).begin(), (x).end()
 #define sz(x) ((ll)(x).size())
- 
 
-void solve(){
+ll const MAX = 1e7 + 5;
+vector<ll> sieve(MAX, 0);
+vector<ll> primes;
+
+void precom() {
+    for(int i = 2; i * i <= MAX; i++) {
+        if(sieve[i] == 1) continue;
+        for(int j = i * i; j <= MAX; j+=i) {
+            sieve[j] = 1;
+        }
+    }
     
+    for(int i = 2; i <= MAX; i++) {
+        if(sieve[i] == 0) {
+            primes.push_back(i);
+        }
+    }
 }
-int main()
-{
- fast_cin();
- ll t;
- cin >> t;
- for(int it=1;it<=t;it++) {
-     solve();
- }
- return 0;
+
+int main() {
+    precom();
+    ll n; cin >> n;
+    vector<ll> A(n + 5);
+    for(int i = 0; i < n; i++) cin >> A[i];
+    map<ll, ll> mp;
+    ll res = 0;
+    for(int i = 0; i < n; i++) {
+        for(auto prime: primes) {
+            while(A[i] % (prime * prime) == 0) A[i] /= (prime*prime);
+            if(prime * prime > A[i]) break;
+        }
+        //2,3,5
+
+        //2,2,3,5
+
+        if(mp[A[i]] == 0) {
+            mp[A[i]]++;
+            res++;
+        }
+    }
+    
+    res++;
+    
+    if(res > n) {
+        cout << -1 << endl;
+    } else {
+        
+        cout << res << endl;
+    }
+    
+    return 0;
 }

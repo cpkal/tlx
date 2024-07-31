@@ -51,37 +51,68 @@ double eps = 1e-12;
 #define all(x) (x).begin(), (x).end()
 #define sz(x) ((ll)(x).size())
  
- ll factorial(ll num) {
-    if(num == 1 || num == 0) {
-        return 1;
+ vl a;
+vvl adj;
+vector<bool> visited;
+vl cnt;
+vector<ll> min_in_component;
+ll C = 0;
+
+
+void dfs(ll x, ll v, ll &price) {
+    visited[v] = true;
+    cnt[C]++; //hitung anggota di component C
+    // min_in_component[C] = min(a[v], min_in_component[C]); 
+    price+=x;
+    for(auto a: adj[v]) {
+        if(!visited[a]) {
+            dfs(x, a, price);
+        }
     }
-    return num * factorial(num - 1);
- } 
+}
+
+bool sortByKey(const pair<ll, ll>& a, const pair<ll, ll>& b) {
+    return a.first < b.first;
+}
+
 
 void solve(){
-    ll n; cin >> n;
-    vector<ll> a(n);
-    forn(i, n) cin >> a[i];
+    ll n, m; cin >> n >> m;
+    
+    a.resize(n+1);
+    adj.resize(n+1);
+    visited.resize(n+1, false);
+    cnt.resize(n+1, 0);
+    min_in_component.resize(n+1, INF);
 
-    //kombinasi 
-    int i = 2;
-    for(i; i < n; i++) {
-        ll com = factorial(n) / (factorial(n-i) * factorial(i));
-        int j = i - 1;
-        for(j; j < com; j++) {
-            ll angka = a[i-2] * a[j];
-            if(sqrt(angka) != a[j]-a[i-2]) {
-                break;
-            }
-        }
-        
-        if(j == com) {
-            break;
+    vpl node;
+    forn(i, n) {
+        cin >> a[i];
+        node.pb(mp(a[i], i));
+    }
+
+    sort(node.begin(), node.end(), sortByKey);
+
+    forn(i, m) {
+        ll x, y; cin >> x >> y;
+        adj[x-1].pb(y-1);
+    }
+
+    ll price = 0;
+    for(const auto &p: node) {
+        if(!visited[p.second]) {
+            dfs(p.first, p.second, price);
         }
     }
 
-    cout << i << endl;
+    cout << price << endl;
 
+    // ll res = 0;
+    // forn(i, C) {
+    //     res += (min_in_component[i] * cnt[i]);
+    // }
+    
+    // cout << res << endl;
 }
 int main()
 {
