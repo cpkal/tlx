@@ -56,22 +56,59 @@ double eps = 1e-12;
 string min_province;
 
 void generateSubsetSums(const vl& arr, vl& subsetSums) {
-    int n = arr.size();
-    for (int i = 0; i < (1 << arr.size()); ++i) {
-        int subsetSum = 0;
-        for (int j = 0; j < n; ++j) {
+    ll n = arr.size();
+    for (ll i = 0; i < (1 << arr.size()); ++i) {
+        ll subsetSum = 0;
+        for (ll j = 0; j < n; ++j) {
             if (i & (1 << j)) { // Check if jth bit is set
                 subsetSum += arr[j];
             }
         }
-        subsetSums.push_back(subsetSum);
+        if(subsetSum > 0) {
+            subsetSums.push_back(subsetSum);
+        }
     }
+}
+
+// int findClosestSum(const vector<ll>& x, const vector<ll>& y, ll k) {
+//     vector<ll> z = x;
+//     z.insert(z.end(), y.begin(), y.end());
+
+//     ll n = z.size();
+//     ll maxSum = accumulate(z.begin(), z.end(), 0);
+    
+//     vector<bool> dp(maxSum + 1, false);
+//     dp[0] = true;
+    
+//     ll closestSum = 0;
+
+//     for (ll num : z) {
+//         for (ll j = maxSum; j >= num; j--) {
+//             if (dp[j - num]) {
+//                 dp[j] = true;
+//                 if (abs(j - k) < abs(closestSum - k)) {
+//                     closestSum = j;
+//                 }
+//             }
+//         }
+//     }
+
+//     return closestSum;
+// }
+
+void sortPairs(vector<pair<long long, string>>& ans) {
+    sort(ans.begin(), ans.end(), [](const pair<long long, string>& a, const pair<long long, string>& b) {
+        if (a.first == b.first) {
+            return a.second < b.second; // Sort alphabetically if the values are equal
+        }
+        return a.first < b.first; // Sort by value
+    });
 }
 
 void solve(){
     ll p, n, k,min, max; cin >> p >> n >> k;
     ll total[n], sum;
-    vpsl ans;
+    vector<pair<ll,string>> ans;
     for(ll i = 0; i < p; i++) {
         string province; 
         getline(cin>>ws, province);
@@ -91,28 +128,63 @@ void solve(){
         sort(fhs.begin(), fhs.end());
         sort(shs.begin(), shs.end());
 
-        int x = INF;
-        
-        for(auto f: fhs) {
-            ll loc = lower_bound(shs.begin(), shs.end(), k - f) - shs.begin();
-            if(loc == shs.size()) loc--;
+        // int max = 0;
+        // for(auto x: fhs) {  
+        //     if(x <= k) {
+        //         auto it = lower_bound(shs.begin(), shs.end(), k-x);
+        //         int p = distance(shs.begin(), it);
+        //         cout << p << " idx ini" << endl;    
+        //         cout << k-x << endl;
+        //         cout << shs[--p] << endl;
+        //         if(p == fhs.size() || shs[p] != k-x) {
+        //              p--;
+        //         }
+        //         if(shs[p]+x > max) {
+        //             cout << shs[p] << " come on" << endl;
+        //             max = shs[p]+x;
+        //         }
+        //     }
+        // }
+
+        // cout << max << " max per province " << province << endl;
+
+        ll closestSum = INF;
+        ll bestSum = 0;
+        for (ll leftSum : fhs) {
+            ll target = k - leftSum;
+            auto it = lower_bound(shs.begin(), shs.end(), target);
             
-            vector<ll> el = {loc, loc-1, loc+1};
-            for(auto d: el) {
-                if(d >= 0 && d < shs.size() && llabs(k - shs[d]+f) <= x && (shs[d]+f) != 0) {
-                    if(llabs(k - (shs[d]+f)) == x) {
-                        if(province < min_province) min_province = province;
-                    } else {
-                        min_province = province;
-                    }
-                    x = llabs(k - (shs[d]+f));
+            // potential cases
+            // it = at the end (check once)
+            // it = at the beginning (check once)
+            // it = at somewhere in between end and beginning (check twice)
+            // need more analysis
+            
+            if (it != shs.end()) {
+                ll rightSum = *it;
+                if (llabs(leftSum + rightSum - k) < llabs(closestSum - k)) {
+                    closestSum = leftSum + rightSum;
+                    bestSum = leftSum + rightSum;
                 }
             }
-        }
 
-        // ans.pb(mp(province, x)); 
+            if (it != shs.begin()) {
+                ll rightSum = *(--it);
+                if (llabs(leftSum + rightSum - k) < llabs(closestSum - k)) {
+                    closestSum = leftSum + rightSum;
+                    bestSum = leftSum + rightSum;
+                }
+            }
+
+
+        }
+        
+        ans.push_back(mp(llabs(k-bestSum), province));
     }
-    cout << min_province << endl;
+
+    sortPairs(ans);
+
+    cout << ans[0].second << endl;
 }
 
 int main()
