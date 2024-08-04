@@ -8,7 +8,10 @@ int main() {
     sort(a, a+n);
     string ans = "";
     int l = 0;
+
+    //1,2,3 
     for(int i = 0; i < n; i++) {
+        cout << abs(a[i+1]-a[i]) << endl;
         if(abs(a[i+1]-a[i]) > 1) {
             if(a[l] == a[i]) {
                 ans += to_string(a[i]) + ",";

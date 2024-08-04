@@ -152,6 +152,12 @@ void solve(){
         ll bestSum = 0;
         for (ll leftSum : fhs) {
             ll target = k - leftSum;
+
+            //1,2,3,3,4
+            //lower(begin(), end(), 3);
+            //auto it = pointer 3
+            //*it = 3
+
             auto it = lower_bound(shs.begin(), shs.end(), target);
             
             // potential cases
@@ -175,8 +181,6 @@ void solve(){
                     bestSum = leftSum + rightSum;
                 }
             }
-
-
         }
         
         ans.push_back(mp(llabs(k-bestSum), province));

@@ -94,9 +94,7 @@ void solve(){
         cout << "SESUAI\n";
     } else if(diff > 1) {
         cout << (max - min)/2 << " " << imax+1 << " " << imin+1 << endl;
-    } else {
-        cout << "TIDAK SESUAI\n";
-    }
+    } 
     
 }
 int main()

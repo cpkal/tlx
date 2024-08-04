@@ -125,8 +125,8 @@ void solve(){
     ll res = 0;
     priority_queue<ll> can;
     for(int i = 0; i < C; i++) {
-        res += min_in_component[i] * cnt[i];
-        can.push((min_in_component[i] - minA) * cnt[i]); //hitung kontribusi 
+        res += min_in_component[i] * cnt[i]; //hitung minimal ketika belum dibuat jalur baru
+        can.push((min_in_component[i] - minA) * cnt[i]); //kandidat 
     }
 
     while(!can.empty() && b--) {

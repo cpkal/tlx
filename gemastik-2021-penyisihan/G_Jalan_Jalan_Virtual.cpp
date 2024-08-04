@@ -84,40 +84,40 @@ void solve() {
     }
 }
  
-void jalan(ll &x, ll &y, ll j, ll &a){
-    if(a==0) x=+j;
-    if(a==1) y+=j;
-    if(a==2) x-=j;
-    if(a==3) y-=j;
-}
+// void jalan(ll &x, ll &y, ll j, ll &a){
+//     if(a==0) x=+j;
+//     if(a==1) y+=j;
+//     if(a==2) x-=j;
+//     if(a==3) y-=j;
+// }
 
-void solve(){
- ll n;
- cin >> n;
- for(ll i = 0; i < n; i++){
-    ll x = 0,y = 0,m,l,a;
-    cin >> m;
-    l=m;
-    a=0;
+// void solve(){
+//  ll n;
+//  cin >> n;
+//  for(ll i = 0; i < n; i++){
+//     ll x = 0,y = 0,m,l,a;
+//     cin >> m;
+//     l=m;
+//     a=0;
 
-    for(ll j=1;j<=m;j++){
-        // cout << j << endl;
+//     for(ll j=1;j<=m;j++){
+//         // cout << j << endl;
        
 
-        if(j>=l){
-            jalan(x,y,l,a);
-            break;
-        }else{
-            jalan(x,y,j,a);
-            l=l-j;
-        }
-        a++;
-        a %= 4;
-    }
-    cout << x << " "<< y <<ln;
- }
+//         if(j>=l){
+//             jalan(x,y,l,a);
+//             break;
+//         }else{
+//             jalan(x,y,j,a);
+//             l=l-j;
+//         }
+//         a++;
+//         a %= 4;
+//     }
+//     cout << x << " "<< y <<ln;
+//  }
  
-}
+// }
 int main()
 {
  fast_cin();

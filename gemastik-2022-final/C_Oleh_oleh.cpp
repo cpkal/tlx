@@ -55,7 +55,7 @@ double eps = 1e-12;
 vvl adj;
 vector<bool> visited;
 vl cnt;
-vector<ll> min_in_component;
+// vector<ll> min_in_component;
 ll C = 0;
 
 
@@ -71,6 +71,7 @@ void dfs(ll x, ll v, ll &price) {
     }
 }
 
+//comparator
 bool sortByKey(const pair<ll, ll>& a, const pair<ll, ll>& b) {
     return a.first < b.first;
 }
@@ -83,7 +84,7 @@ void solve(){
     adj.resize(n+1);
     visited.resize(n+1, false);
     cnt.resize(n+1, 0);
-    min_in_component.resize(n+1, INF);
+    // min_in_component.resize(n+1, INF);
 
     vpl node;
     forn(i, n) {
